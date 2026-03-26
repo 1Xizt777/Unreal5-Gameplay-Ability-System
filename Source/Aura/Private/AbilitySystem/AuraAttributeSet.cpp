@@ -8,13 +8,14 @@
 
 
 UAuraAttributeSet::UAuraAttributeSet()
-{
+{	//初始化
 	InitHealth(100.f);
 	InitMaxHealth(100.f);
 	InitMana(80.f);
 	InitMaxMana(80.f);
 }
 
+//注册函数
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
@@ -28,6 +29,7 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 }
 
 
+//OnRep回调函数
 void UAuraAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet,Health,OldHealth);

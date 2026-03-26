@@ -23,7 +23,7 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 void AAuraPlayerController::CursorTrace()
 {
 	FHitResult CursorHit;
-	GetHitResultUnderCursor(ECC_Visibility,false,CursorHit);
+	GetHitResultUnderCursor(ECC_Visibility,false,CursorHit);   //返回光标点击内容
 	
 	LastActor = ThisActor;
 	ThisActor = CursorHit.GetActor();

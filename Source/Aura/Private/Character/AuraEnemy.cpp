@@ -37,8 +37,9 @@ void AAuraEnemy::BeginPlay()
 
 void AAuraEnemy::HighlightActor()
 {
+				//允许它渲染到“自定义深度缓冲”->描边效果
 	GetMesh()->SetRenderCustomDepth(true);
-	GetMesh()->SetCustomDepthStencilValue(250);
+	GetMesh()->SetCustomDepthStencilValue(250);  //红色
 	
 	Weapon->SetRenderCustomDepth(true);
 	Weapon->SetCustomDepthStencilValue(250);
@@ -46,6 +47,7 @@ void AAuraEnemy::HighlightActor()
 
 void AAuraEnemy::UnHighlightActor()
 {
+			   //取消它渲染到“自定义深度缓冲”->取消描边效果
 	GetMesh()->SetRenderCustomDepth(false);
 	Weapon->SetRenderCustomDepth(false);
 }

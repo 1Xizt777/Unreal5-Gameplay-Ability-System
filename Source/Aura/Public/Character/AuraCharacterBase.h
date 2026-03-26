@@ -18,8 +18,8 @@ class AURA_API AAuraCharacterBase : public ACharacter , public IAbilitySystemInt
 
 public:
 	AAuraCharacterBase();
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-	UAttributeSet* GetAttributeSet() const {return AttributeSet;};
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;  //接IAbilitySystemInterface接口并重写此函数
+	UAttributeSet* GetAttributeSet() const {return AttributeSet;};     //用ASC可以获取AS，但也留接口调用
 protected:
 
 	virtual void BeginPlay() override;

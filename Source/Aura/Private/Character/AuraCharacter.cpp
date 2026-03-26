@@ -35,11 +35,13 @@ void AAuraCharacter::OnRep_PlayerState()
 	InitAbilityActorInfo();
 }
 
+//初始化信息
 void AAuraCharacter::InitAbilityActorInfo()
 {
 	AAuraPlayerState * AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 	if (AuraPlayerState)
-	{
+	{	
+		//初始化信息，告诉ASC“AS是谁的”以及“肉体在哪里
 		AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState,this);
 		
 		//ASC
