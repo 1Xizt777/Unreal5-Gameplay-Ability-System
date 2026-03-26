@@ -4,11 +4,43 @@
 #include "Player/AuraPlayerController.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "ShaderPrintParameters.h"
 #include "Engine/LocalPlayer.h"
+#include "Interaction/EnemyInterface.h"
+
 AAuraPlayerController::AAuraPlayerController()
 {
 	bReplicates = true;
 }
+
+void AAuraPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+	
+	CursorTrace();
+}
+
+void AAuraPlayerController::CursorTrace()
+{
+	FHitResult CursorHit;
+	GetHitResultUnderCursor(ECC_Visibility,false,CursorHit);
+	
+	LastActor = ThisActor;
+	ThisActor = CursorHit.GetActor();
+	
+	if (ThisActor == LastActor) {return;}
+	
+	if (ThisActor)
+	{	//高光
+		ThisActor->HighlightActor();
+	}
+	
+	if (LastActor)
+	{   //取消高光
+		LastActor->UnHighlightActor();
+	}
+}
+
 
 void AAuraPlayerController::BeginPlay()
 {
@@ -56,3 +88,4 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 		ControlledPawn->AddMovementInput(RightDirection * -InputActionVector.X);
 	}
 }
+
