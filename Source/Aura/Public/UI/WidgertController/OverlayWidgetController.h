@@ -32,10 +32,7 @@ struct FUIWidgetRow : public FTableRowBase
 //只有一个参数，可以有三个（ NewValue (新数值), OldValue (老数值), GEModData (伤害来源等详细上下文)。）
 
 		//DYNAMIC动态广播，蓝图可以看到
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangedSignature, float, NewHealth);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangedSignature, float, NewMaxHealth);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnManaChangedSignature, float, NewMana);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxManaChangedSignature, float, NewMaxMana);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSingature, float, NewHealth);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetDataSignature, FUIWidgetRow , Row);
 
@@ -54,17 +51,19 @@ public:
 	
 			  //允许蓝图来听广播
 	UPROPERTY(BlueprintAssignable , Category="GAS | Attributes")
-	FOnHealthChangedSignature OnHealthChanged;
+	FOnAttributeChangedSingature OnHealthChanged;
 	
 	UPROPERTY(BlueprintAssignable , Category="GAS | Attributes")
-	FOnMaxHealthChangedSignature OnMaxHealthChanged;
+	FOnAttributeChangedSingature OnMaxHealthChanged;
 	
 	UPROPERTY(BlueprintAssignable , Category="GAS | Attributes")
-	FOnManaChangedSignature OnManaChanged;
+	FOnAttributeChangedSingature OnManaChanged;
 	
 	UPROPERTY(BlueprintAssignable , Category="GAS | Attributes")
-	FOnMaxManaChangedSignature OnMaxManaChanged;
+	FOnAttributeChangedSingature OnMaxManaChanged;
 
+	
+	
 	UPROPERTY(BlueprintAssignable , Category="GAS | Messages")
 	FMessageWidgetDataSignature MessageWidgetDataDelegate;
 	
@@ -73,10 +72,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
 	TObjectPtr<UDataTable> MessageWidgetDataTable;
 	
-    void HealthChanged(const FOnAttributeChangeData& Data) const;	
-	void MaxHealthChanged(const FOnAttributeChangeData& Data) const;
-	void ManaChanged(const FOnAttributeChangeData& Data) const;	
-	void MaxManaChanged(const FOnAttributeChangeData& Data) const;
 	
 	template<typename T>
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
