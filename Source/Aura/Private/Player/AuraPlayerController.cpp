@@ -20,6 +20,7 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 	CursorTrace();
 }
 
+//鼠标光标检测
 void AAuraPlayerController::CursorTrace()
 {
 	FHitResult CursorHit;
@@ -50,6 +51,7 @@ void AAuraPlayerController::BeginPlay()
 	{
 		if (UEnhancedInputLocalPlayerSubsystem*  Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 		{
+			//添加映射上下文
 			Subsystem->AddMappingContext(AuraContext,0);
 		}
 					

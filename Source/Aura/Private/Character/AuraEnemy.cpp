@@ -27,13 +27,22 @@ AAuraEnemy::AAuraEnemy()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 }
 
+
+
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	//初始化信息
-	AbilitySystemComponent->InitAbilityActorInfo(this,this);
+	InitAbilityActorInfo();
 }
+
+void AAuraEnemy::InitAbilityActorInfo()
+{
+	//初始化信息，告诉ASC“AS是谁的”以及“肉体在哪里
+	AbilitySystemComponent->InitAbilityActorInfo(this,this);
+	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+}
+
 
 void AAuraEnemy::HighlightActor()
 {

@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
 #include "GameFramework/Character.h"
-#include "AuraCharacterBase.generated.h"
+#include "AuraCharacterBase.generated.h"   
 
 
 class UAbilitySystemComponent;
@@ -26,11 +26,13 @@ protected:
 	
 	UPROPERTY(EditAnywhere,Category="Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
-
 	
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
+	
+	
+	virtual void InitAbilityActorInfo();
 };
