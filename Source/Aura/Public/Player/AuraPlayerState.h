@@ -18,15 +18,27 @@ class AURA_API AAuraPlayerState : public APlayerState,public IAbilitySystemInter
 	GENERATED_BODY()
 public:
 	AAuraPlayerState();
+	
+	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+	
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;  //接IAbilitySystemInterface接口并重写此函数
 	UAttributeSet* GetAttributeSet() const {return AttributeSet;};     //用ASC可以获取AS，但也留接口调用
+	
+	FORCEINLINE int32 GetPlayerLevel() const {return Level;};
 protected:
 	
 	
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
+	
+	UPROPERTY(VisibleAnywhere,ReplicatedUsing= OnRep_Level)
+	int32 Level = 1;
+	
+	UFUNCTION()
+	void OnRep_Level(const int32& OldLevel);
+	
 	
 };

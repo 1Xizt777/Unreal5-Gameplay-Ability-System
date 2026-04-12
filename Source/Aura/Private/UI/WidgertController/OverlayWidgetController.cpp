@@ -67,10 +67,13 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 														//寻找"Message"Tag
 				FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(TEXT("Message"));
 				
-					//如果找到其以及其子类返回true
+					//如果比对到其以及其子类返回true
 				if (Tag.MatchesTag(MessageTag))
-				{
+				{	
+					//拿着Message.HealthPotion去找对应的Row（图标图片，文字提示等）
 					const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable,Tag);
+					
+					//传入ROW给蓝图做UI
 					MessageWidgetDataDelegate.Broadcast(*Row);
 				}
 	

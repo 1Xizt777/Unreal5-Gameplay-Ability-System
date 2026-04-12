@@ -27,6 +27,8 @@ enum class EEffectRemovalPolicy: uint8
 	DoNotRemove
 };
 
+
+
 UCLASS()
 class AURA_API AAuraEffectActor : public AActor
 {
@@ -50,7 +52,6 @@ protected:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Effect")
 	TSubclassOf<UGameplayEffect> InstantGameplayEffectClass;	
 	
-	
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Effect")
 	EEffectApplicationPolicy InstantEffectApplicationPolicy = EEffectApplicationPolicy::DoNotApply;
 	
@@ -72,6 +73,8 @@ protected:
 	
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Effect")
 	EEffectRemovalPolicy InfiniteEffectRemovalPolicy = EEffectRemovalPolicy::RemoveOnEndOverlap;
+	
+	
 	
 	UPROPERTY()
 	TMap<FActiveGameplayEffectHandle,UAbilitySystemComponent*> ActiveEffectHandles;
