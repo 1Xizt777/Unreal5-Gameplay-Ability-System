@@ -58,10 +58,11 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	);
 	
 	
-	
+														
 	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
+								//引擎自带委托传TagContainer进来
 		[this](const FGameplayTagContainer& AssetTags)
-		{
+		{	//遍历TagContainer容器
 			for (const FGameplayTag& Tag : AssetTags)
 			{
 														//寻找"Message"Tag

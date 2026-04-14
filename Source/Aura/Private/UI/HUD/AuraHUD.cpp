@@ -6,7 +6,7 @@
 #include "UI/WidgertController/AuraWidgetController.h"
 #include "UI/WidgertController/OverlayWidgetController.h"
 #include "Blueprint/UserWidget.h"
-
+#include "UI/WidgertController/AttributeMenuWidgetController.h"
 
 
 UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetControllerParams& WCParams)
@@ -16,10 +16,21 @@ UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetCont
 		//NewObject给一个UOverlayWidgetController类指针赋实体
 		OverlayWidgetController = NewObject<UOverlayWidgetController>(this,OverlayWidgetControllerClass);
 		OverlayWidgetController->SetWidgetControllerParams(WCParams); //传入四个重要变量方便监听
-		OverlayWidgetController->BindCallbacksToDependencies();  //监听
-		return OverlayWidgetController;
+		OverlayWidgetController->BindCallbacksToDependencies();  //call监听函数
 	}
 	return OverlayWidgetController;
+}
+
+
+UAttributeMenuWidgetController* AAuraHUD::GetAttributeMenuWidgetController(const FWidgetControllerParams& WCParams)
+{
+	if (AttributeMenuWidgetController == nullptr)
+	{
+		AttributeMenuWidgetController = NewObject<UAttributeMenuWidgetController>(this,AttributeMenuWidgetControllerClass);
+		AttributeMenuWidgetController->SetWidgetControllerParams(WCParams);
+		AttributeMenuWidgetController->BindCallbacksToDependencies();
+	}
+	return AttributeMenuWidgetController;
 }
 
 
@@ -32,16 +43,13 @@ void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySyst
 	//把WBP_Overlay创建好
 	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), OverlayWidgetClass);
 	
-	
 	OverlayWidget = Cast<UAuraUserWidget>(Widget);
-
 	
-	//将AuraCharacter的四个重要变量!!!!打包!!!!//
+	//将AuraCharacter的四个重要变量打包
 	const FWidgetControllerParams WidgetControllerParams(PC,PS,ASC,AS);
 	
-	//!!!!传值!!!!//
+	//传值并获取OverlayWidgetController
 	UOverlayWidgetController* WidgetController = GetOverlayWidgetController(WidgetControllerParams);
-	
 	
 	//AuraUserWidget类认主，基于AuraUserWidget类的WBP_Overlay的EventWidgetControllerSet节点激活
 	OverlayWidget->SetWidgetController(WidgetController);
@@ -49,9 +57,10 @@ void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySyst
 	//初始化属性值，避免UI空槽
 	WidgetController->BroadcastInitialValues();
 	
-	
 	//把WBP_Overlay打印到屏幕上
 	Widget->AddToViewport();
 }
+
+
 
 

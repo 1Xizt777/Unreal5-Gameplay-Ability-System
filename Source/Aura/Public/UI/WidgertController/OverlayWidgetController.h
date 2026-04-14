@@ -10,6 +10,7 @@
 class UAuraUserWidget;
 struct FOnAttributeChangeData;
 
+//自定义结构体
 USTRUCT()
 struct FUIWidgetRow : public FTableRowBase
 {
@@ -44,12 +45,14 @@ class AURA_API UOverlayWidgetController : public UAuraWidgetController
 	GENERATED_BODY()
 	
 public:
+	//重写
 	virtual void BroadcastInitialValues() override;
 	
+	//重写
 	virtual void BindCallbacksToDependencies() override;
 	
 	
-			  //允许蓝图来听广播
+	//实例化这个委托同时允许蓝图Assign
 	UPROPERTY(BlueprintAssignable , Category="GAS | Attributes")
 	FOnAttributeChangedSingature OnHealthChanged;
 	
@@ -61,8 +64,6 @@ public:
 	
 	UPROPERTY(BlueprintAssignable , Category="GAS | Attributes")
 	FOnAttributeChangedSingature OnMaxManaChanged;
-
-	
 	
 	UPROPERTY(BlueprintAssignable , Category="GAS | Messages")
 	FMessageWidgetDataSignature MessageWidgetDataDelegate;

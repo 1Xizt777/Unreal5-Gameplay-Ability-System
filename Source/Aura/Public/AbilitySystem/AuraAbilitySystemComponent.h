@@ -20,8 +20,13 @@ public:
 	//此函数绑定OnGameplayEffectAppliedDelegateToSelf委托
 	void AbilityActorInfoSet();
 	
+	//实例化普通委托
 	FEffectAssetTags EffectAssetTags;
 protected:
-	
 	void  EffectApplied(UAbilitySystemComponent* AbilitySystemComponent,  const FGameplayEffectSpec& EffectSpec,FActiveGameplayEffectHandle ActiveEffectHandle);
+
+
+	
+
+
 };
