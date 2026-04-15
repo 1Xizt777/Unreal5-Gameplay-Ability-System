@@ -34,6 +34,7 @@ UAttributeMenuWidgetController* AAuraHUD::GetAttributeMenuWidgetController(const
 }
 
 
+
 void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS)
 {
 	
@@ -57,7 +58,6 @@ void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySyst
 	//初始化属性值，避免UI空槽
 	WidgetController->BroadcastInitialValues();
 	
-	//把WBP_Overlay打印到屏幕上
 	Widget->AddToViewport();
 }
 

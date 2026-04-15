@@ -7,13 +7,19 @@
 #include "VectorUtil.h"
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
+#include "AuraGameplayTags.h"
 #include "Net/UnrealNetwork.h"
 	
 
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 	
+	TagToAttribute.Add(GameplayTags.Attributes_Primary_Strength ,GetStrengthAttribute);
+	TagToAttribute.Add(GameplayTags.Attributes_Primary_Intelligence ,GetIntelligenceAttribute);
+	TagToAttribute.Add(GameplayTags.Attributes_Primary_Resilience ,GetResilienceAttribute);
+	TagToAttribute.Add(GameplayTags.Attributes_Primary_Vigor ,GetVigorAttribute);
 }
 
 //注册函数

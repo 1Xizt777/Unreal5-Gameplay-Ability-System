@@ -14,6 +14,8 @@ GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+template<class T>
+using TStateFuncPtr =  typename TBaseStaticDelegateInstance<T,FDefaultDelegateUserPolicy>::FFuncPtr;
 
 
 USTRUCT()
@@ -52,7 +54,6 @@ struct FEffectProperties
 };
 
 
-
 UCLASS()
 class AURA_API UAuraAttributeSet : public UAttributeSet
 {
@@ -60,7 +61,18 @@ class AURA_API UAuraAttributeSet : public UAttributeSet
 	
 public:
 	
+	
 	UAuraAttributeSet();
+	
+	
+	//声明了一个名为 FunctionPointer 的变量，这个变量专门用来存放“返回值为 FGameplayAttribute 且没有参数的静态函数”的内存地址
+	//using FunctionPointer = TBaseStaticDelegateInstance<FGameplayAttribute(),FDefaultDelegateUserPolicy>::FFuncPtr;
+	
+	
+	//定义一个键值对TMap，键是Tag ,值是Tag对应的Get静态函数指针
+	TMap<FGameplayTag, TStateFuncPtr<FGameplayAttribute()>> TagToAttribute;
+	
+	
 	
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	

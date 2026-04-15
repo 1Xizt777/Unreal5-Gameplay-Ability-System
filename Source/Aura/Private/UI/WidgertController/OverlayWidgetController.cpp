@@ -58,7 +58,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	);
 	
 	
-														
+	//传值给蓝图 做 拾取物品消息UI										
 	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
 								//引擎自带委托传TagContainer进来
 		[this](const FGameplayTagContainer& AssetTags)
@@ -77,7 +77,6 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 					//传入ROW给蓝图做UI
 					MessageWidgetDataDelegate.Broadcast(*Row);
 				}
-	
 			}
 		}
 	);

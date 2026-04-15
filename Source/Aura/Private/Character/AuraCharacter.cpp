@@ -66,11 +66,11 @@ void AAuraCharacter::InitAbilityActorInfo()
 		if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController()))
 		{
 			if (AAuraHUD * AuraHUD = Cast<AAuraHUD>(AuraPlayerController->GetHUD()))
-			{
+			{	
 				AuraHUD->InitOverlay(AuraPlayerController,AuraPlayerState,AbilitySystemComponent,AttributeSet);
 			}
 			
 		}
 	}
-	InitializeDefaultAttributes();
+	InitializeDefaultAttributes();  //初始化三大属性值（Primary,Secondary,Vital）
 }

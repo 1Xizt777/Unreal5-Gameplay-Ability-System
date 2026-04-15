@@ -50,6 +50,7 @@ public:
 	void SetWidgetControllerParams(const FWidgetControllerParams& Params);
 	
 	//本类不做实现，子类重写
+	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitialValues();
 	
 	//本类不做实现，子类重写
