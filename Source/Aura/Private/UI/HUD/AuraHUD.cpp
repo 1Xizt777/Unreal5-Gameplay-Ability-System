@@ -15,8 +15,8 @@ UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetCont
 	{
 		//NewObject给一个UOverlayWidgetController类指针赋实体
 		OverlayWidgetController = NewObject<UOverlayWidgetController>(this,OverlayWidgetControllerClass);
-		OverlayWidgetController->SetWidgetControllerParams(WCParams); //传入四个重要变量方便监听
-		OverlayWidgetController->BindCallbacksToDependencies();  //call监听函数
+		OverlayWidgetController->SetWidgetControllerParams(WCParams); //传入四个重要变量方便使用
+		OverlayWidgetController->BindCallbacksToDependencies();  //call监听属性值变化函数
 	}
 	return OverlayWidgetController;
 }
@@ -28,7 +28,7 @@ UAttributeMenuWidgetController* AAuraHUD::GetAttributeMenuWidgetController(const
 	{
 		AttributeMenuWidgetController = NewObject<UAttributeMenuWidgetController>(this,AttributeMenuWidgetControllerClass);
 		AttributeMenuWidgetController->SetWidgetControllerParams(WCParams);
-		AttributeMenuWidgetController->BindCallbacksToDependencies();
+		AttributeMenuWidgetController->BindCallbacksToDependencies();  //call监听属性值变化函数
 	}
 	return AttributeMenuWidgetController;
 }

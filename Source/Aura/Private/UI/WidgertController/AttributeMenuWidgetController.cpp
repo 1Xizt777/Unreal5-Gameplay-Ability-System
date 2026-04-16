@@ -6,6 +6,7 @@
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/AttributeInfo.h"
+#include "Chaos/Deformable/MuscleActivationConstraints.h"
 
 void UAttributeMenuWidgetController::BroadcastInitialValues()
 {
@@ -24,6 +25,18 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 {
+	UAuraAttributeSet* AS = Cast<UAuraAttributeSet>(AttributeSet);
+	for (auto& Pair : AS->TagToAttribute)
+	{
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
+			[this,Pair](const FOnAttributeChangeData& Data)
+			{
+				FAuraAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(Pair.Key);
+				Info.AttributeValue = Data.NewValue;
+				AttributeInfoDelegate.Broadcast(Info);
+			}
+		);
+	}
 
 	
 }

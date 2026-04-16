@@ -6,7 +6,7 @@
 #include "NativeGameplayTags.h"
 
 /**
- * 
+ *                                             ---  此类用于添加NavtiveTag  ---  
  */
 struct FAuraGameplayTags
 {
@@ -36,7 +36,13 @@ public:
 	FGameplayTag Attributes_Secondary_MaxHealth;
 	FGameplayTag Attributes_Secondary_MaxMana;
 
-	 
+	FGameplayTag InputTag_LMB;
+	FGameplayTag InputTag_RMB;
+	FGameplayTag InputTag_1;
+	FGameplayTag InputTag_2;
+	FGameplayTag InputTag_3;
+	FGameplayTag InputTag_4;
+	
 protected:
 	// 私有的静态实例
 	static FAuraGameplayTags GameplayTags;

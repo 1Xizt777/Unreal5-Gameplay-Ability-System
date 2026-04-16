@@ -6,6 +6,8 @@
 #include "AuraCharacterBase.h"
 #include "AuraCharacter.generated.h"
 
+class UGameplayAbility;
+
 UCLASS()
 class AURA_API AAuraCharacter : public AAuraCharacterBase
 {
@@ -24,5 +26,7 @@ public:
 	
 	
 private:
+	
 	virtual void InitAbilityActorInfo() override;
+	
 };

@@ -16,10 +16,24 @@ UAuraAttributeSet::UAuraAttributeSet()
 {
 	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 	
+	// --- Primary Attributes --- // 
 	TagToAttribute.Add(GameplayTags.Attributes_Primary_Strength ,GetStrengthAttribute);
 	TagToAttribute.Add(GameplayTags.Attributes_Primary_Intelligence ,GetIntelligenceAttribute);
 	TagToAttribute.Add(GameplayTags.Attributes_Primary_Resilience ,GetResilienceAttribute);
 	TagToAttribute.Add(GameplayTags.Attributes_Primary_Vigor ,GetVigorAttribute);
+	
+	
+	// --- Secondary Attributes --- // 
+	TagToAttribute.Add(GameplayTags.Attributes_Secondary_Armor ,GetArmorAttribute);
+	TagToAttribute.Add(GameplayTags.Attributes_Secondary_ArmorPenetration, GetArmorAttribute);
+	TagToAttribute.Add(GameplayTags.Attributes_Secondary_BlockChance, GetBlockChanceAttribute);
+	TagToAttribute.Add(GameplayTags.Attributes_Secondary_CriticalHitChance, GetCriticalHitChanceAttribute);
+	TagToAttribute.Add(GameplayTags.Attributes_Secondary_CriticalHitDamage, GetCriticalHitDamageAttribute);
+	TagToAttribute.Add(GameplayTags.Attributes_Secondary_CriticalHitResistance, GetCriticalHitResistanceAttribute);
+	TagToAttribute.Add(GameplayTags.Attributes_Secondary_HealthRegeneration, GetHealthRegenerationAttribute);
+	TagToAttribute.Add(GameplayTags.Attributes_Secondary_ManaRegeneration, GetManaRegenerationAttribute);
+	TagToAttribute.Add(GameplayTags.Attributes_Secondary_MaxHealth, GetMaxHealthAttribute);
+	TagToAttribute.Add(GameplayTags.Attributes_Secondary_MaxMana, GetMaxManaAttribute);
 }
 
 //注册函数
