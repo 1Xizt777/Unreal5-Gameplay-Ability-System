@@ -61,6 +61,7 @@ protected:
 
 private:
 	
+	//数组，在编辑器里添加元素
 	UPROPERTY(EditAnywhere , Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 	

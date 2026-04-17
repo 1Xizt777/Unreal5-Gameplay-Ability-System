@@ -23,8 +23,15 @@ public:
 	//实例化普通委托
 	FEffectAssetTags EffectAssetTags;
 	
+	
 	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
 	
+	
+	
+	void AbilityInputTagReleased(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
+	
+
 	
 protected:
 	
