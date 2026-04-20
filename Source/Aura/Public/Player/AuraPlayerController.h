@@ -51,6 +51,9 @@ private:
 	UPROPERTY()
 	TScriptInterface<IEnemyInterface> ThisActor;
 	
+	FHitResult CursorHit;
+	
+	
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
 	void AbilityInputTagHeld(FGameplayTag InputTag);
@@ -63,8 +66,8 @@ private:
 	UPROPERTY()
 	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
 	
-	UAuraAbilitySystemComponent* GetAuraASC();
 	
+	UAuraAbilitySystemComponent* GetAuraASC();
 	
 	
 	FVector CachedDestination = FVector::ZeroVector;     //缓存的目的地

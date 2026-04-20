@@ -10,14 +10,12 @@
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 {  
 	//引擎自带委托 ， 这个委托不是用来算账的 ，它是用来做“视觉和消息反馈”的最高优先级入口
-	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this,&UAuraAbilitySystemComponent::EffectApplied);
+	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this,&UAuraAbilitySystemComponent::ClientEffectApplied);
 
 }
 
-
-void UAuraAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* AbilitySystemComponent,
-                                                const FGameplayEffectSpec& EffectSpec, 
-                                                FActiveGameplayEffectHandle ActiveEffectHandle)
+void UAuraAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent,
+	const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle)
 {
 	FGameplayTagContainer TagContainer;
 	
@@ -56,7 +54,6 @@ void UAuraAbilitySystemComponent::AbilityInputTagReleased(FGameplayTag InputTag)
 		{
 			//AbilitySpecInputReleased仅仅是更新了状态
 			AbilitySpecInputReleased(AbilitySpec);
-
 		}
 	}
 }
@@ -79,5 +76,6 @@ void UAuraAbilitySystemComponent::AbilityInputTagHeld(FGameplayTag InputTag)
 		}
 	}
 }
+
 
 

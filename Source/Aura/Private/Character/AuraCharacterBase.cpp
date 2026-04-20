@@ -30,6 +30,12 @@ void AAuraCharacterBase::BeginPlay()
 
 }
 
+FVector AAuraCharacterBase::GetWeaponSocketLocation()
+{
+	check(Weapon);
+	return Weapon->GetSocketLocation(WeaponSocketName);
+}
+
 void AAuraCharacterBase::InitAbilityActorInfo()
 {
 	

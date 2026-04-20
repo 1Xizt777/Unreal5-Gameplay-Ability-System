@@ -38,7 +38,7 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 //鼠标光标检测
 void AAuraPlayerController::CursorTrace()
 {
-	FHitResult CursorHit;
+
 	GetHitResultUnderCursor(ECC_Visibility,false,CursorHit);   //返回光标点击内容
 	
 	LastActor = ThisActor;
@@ -131,7 +131,6 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 	}
 }
 
-
 //按键松开
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
@@ -156,7 +155,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 	
 	else  	//如果点到的不是敌人的模型
 	{
-		APawn* ControlledPawn = GetPawn();
+		const APawn* ControlledPawn = GetPawn();
 		if (FollowTime <= ShortPressThreshold && ControlledPawn)
 		{		
 											//我现在在 A 点，我想去 B 点，请给我一份避开所有障碍物的路线图
@@ -206,12 +205,10 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		//按住时间叠加
 		FollowTime += GetWorld()->GetDeltaSeconds();
 		
-		FHitResult Hit;
-		
 		//获取鼠标点击信息
-		if (GetHitResultUnderCursor(ECC_Visibility,false,Hit))
+		if (CursorHit.bBlockingHit)
 		{
-			CachedDestination = Hit.ImpactPoint;
+			CachedDestination = CursorHit.ImpactPoint;
 		} 
 		
 		if (APawn* ControlledPawn = GetPawn())
@@ -221,6 +218,7 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		}
 	}
 }
+
 
 void AAuraPlayerController::AutoRun()
 {
