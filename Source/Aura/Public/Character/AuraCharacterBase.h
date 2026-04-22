@@ -59,7 +59,8 @@ protected:
 	//用GE初始化属性值函数
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
 
-	void InitializeDefaultAttributes() const;
+	
+	virtual void InitializeDefaultAttributes() const;
 	
 	
 	void AddCharacterAbilities();	

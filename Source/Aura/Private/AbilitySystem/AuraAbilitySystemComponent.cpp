@@ -2,7 +2,6 @@
 
 
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
-
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
@@ -36,18 +35,23 @@ void UAuraAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass,1);
 		
 		if (UAuraGameplayAbility* AuraAbility = Cast<UAuraGameplayAbility>(AbilitySpec.Ability))
-		{
+		{	
+			
+													//把Ability的触发按键Tag加入GetDynamicSpecSourceTags()
 			AbilitySpec.GetDynamicSpecSourceTags().AddTag(AuraAbility->StartupAbilityTag);
+			
+			//让角色学会技能
 			GiveAbility(AbilitySpec);
 		}
 		
 	}
 }
 
+
 void UAuraAbilitySystemComponent::AbilityInputTagReleased(FGameplayTag InputTag)
 {
 	if (!InputTag.IsValid()) {return;} 
-	
+											//技能库大全
 	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
 		if (AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InputTag))
@@ -58,10 +62,12 @@ void UAuraAbilitySystemComponent::AbilityInputTagReleased(FGameplayTag InputTag)
 	}
 }
 
+
+
 void UAuraAbilitySystemComponent::AbilityInputTagHeld(FGameplayTag InputTag)
 {
 	if (!InputTag.IsValid()) {return;} 
-	
+												//技能库大全
 	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
 		if (AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InputTag))
@@ -70,7 +76,8 @@ void UAuraAbilitySystemComponent::AbilityInputTagHeld(FGameplayTag InputTag)
 			AbilitySpecInputPressed(AbilitySpec);
 			
 			if (!AbilitySpec.IsActive())
-			{
+			{	
+				//让角色真正“释放”这个技能
 				TryActivateAbility(AbilitySpec.Handle);
 			}
 		}

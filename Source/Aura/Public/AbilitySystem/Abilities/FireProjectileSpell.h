@@ -19,11 +19,13 @@ public:
 
 	
 	UFUNCTION(BlueprintCallable , Category = "Projectile")
-	void SpawnProjectile();
+	void SpawnProjectile(const FVector& ProjectileTargetLocation);
 	
 	
 	UPROPERTY(EditDefaultsOnly , Category = "Combat")
 	TSubclassOf<AAuraProjectile> FireProjectileClass;
 	
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UGameplayEffect> FireBoltGameplayEffectClass;
 
 };

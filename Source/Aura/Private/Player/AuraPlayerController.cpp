@@ -85,7 +85,12 @@ void AAuraPlayerController::SetupInputComponent()
 	Super::SetupInputComponent();
 	
 	UAuraInputComponent* AuraInputComponent = CastChecked<UAuraInputComponent>(InputComponent);
+	
 	AuraInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+	
+	AuraInputComponent->BindAction(ShiftAction,ETriggerEvent::Started , this , &AAuraPlayerController::PressedShift);
+	AuraInputComponent->BindAction(ShiftAction,ETriggerEvent::Completed , this , &AAuraPlayerController::ReleasedShift);
+	
 	AuraInputComponent->BindAbilityActions(InputDataConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);}
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
@@ -138,27 +143,25 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
 		if (UAuraAbilitySystemComponent* AuraASC = GetAuraASC())
-		{	//传递消息，松开了某个按键
+		{	
 			AuraASC->AbilityInputTagReleased(InputTag);
 		}
 		return;
 	}
 	
-	//如果点到的是敌人模型
-	if (bTargeting)
-	{
-		if (UAuraAbilitySystemComponent* AuraASC = GetAuraASC())
-		{	//传递消息，松开了某个按键
-			AuraASC->AbilityInputTagReleased(InputTag);
-		}
+	if (UAuraAbilitySystemComponent* AuraASC = GetAuraASC())
+	{	
+		AuraASC->AbilityInputTagReleased(InputTag);
 	}
 	
-	else  	//如果点到的不是敌人的模型
+	
+	//如果点到的是敌人模型
+	if (!bTargeting && !bShiftIsDown)
 	{
 		const APawn* ControlledPawn = GetPawn();
 		if (FollowTime <= ShortPressThreshold && ControlledPawn)
 		{		
-											//我现在在 A 点，我想去 B 点，请给我一份避开所有障碍物的路线图
+			//我现在在 A 点，我想去 B 点，请给我一份避开所有障碍物的路线图
 			if (UNavigationPath* NaviPath =  UNavigationSystemV1::FindPathToLocationSynchronously(this,ControlledPawn->GetActorLocation(),CachedDestination))
 			{
 				Spline->ClearSplinePoints();    //先清空全部曲线点
@@ -166,16 +169,15 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				for (const auto& PathPointLoc : NaviPath->PathPoints)
 				{
 					Spline->AddSplinePoint(PathPointLoc,ESplineCoordinateSpace::World);
-					DrawDebugSphere(GetWorld(),PathPointLoc,3.f,12.f,FColor::Red,false,5.f);
 				}
 
 				CachedDestination = NaviPath->PathPoints[NaviPath->PathPoints.Num()-1];	//存储数组最后一个元素的Fvector
 				bAutoRunning = true;
 			}
 		}
-		 
+		FollowTime = 0.f;
+		bTargeting = false;
 	}
-
 }
 
 //按住按键
@@ -185,17 +187,17 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
 		if (UAuraAbilitySystemComponent* AuraASC = GetAuraASC())
-		{	//传递消息，按住了某个按键
+		{	
 			AuraASC->AbilityInputTagHeld(InputTag);
 		}
 		return;
 	}
 	
 	//如果点到的是敌人模型
-	if (bTargeting)
+	if (bTargeting || bShiftIsDown)
 	{
 		if (UAuraAbilitySystemComponent* AuraASC = GetAuraASC())
-		{	//传递消息，按住了某个按键
+		{	
 			AuraASC->AbilityInputTagHeld(InputTag);
 		}
 	}
