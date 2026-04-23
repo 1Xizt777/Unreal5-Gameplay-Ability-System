@@ -43,6 +43,10 @@ public:
 	FGameplayTag InputTag_3;
 	FGameplayTag InputTag_4;
 	
+	FGameplayTag Combat_Damage;
+	
+	FGameplayTag Effects_HitReact;
+	
 protected:
 	// 私有的静态实例
 	static FAuraGameplayTags GameplayTags;

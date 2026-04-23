@@ -2,11 +2,15 @@
 
 #include "Character/AuraEnemy.h"
 
+#include "AuraGameplayTags.h"
+#include "NativeGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/PawnMovementComponent.h"
 #include "UI/Widget/AuraUserWidget.h"
 
 
@@ -36,7 +40,12 @@ void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
+	
 	InitAbilityActorInfo();	
+	
+	UAuraAbilitySystemLibrary::InitializedCommonAbilities(this,AbilitySystemComponent);
+	
 	
 	if (UAuraUserWidget* AuraUserWidget = Cast<UAuraUserWidget>(HealthBar->GetUserWidgetObject()))
 	{
@@ -61,12 +70,21 @@ void AAuraEnemy::BeginPlay()
 			}
 		);
 		
+		FAuraGameplayTags GameplayTags = FAuraGameplayTags().Get();
+		AbilitySystemComponent->RegisterGameplayTagEvent(GameplayTags.Effects_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(
+		this,&AAuraEnemy::HitReactCallBack);
+		
 		OnHealthChanged.Broadcast(AuraAS->GetMaxHealth());
 		OnMaxHealthChanged.Broadcast(AuraAS->GetMaxHealth());
 	}
 	
 }
 
+void AAuraEnemy::HitReactCallBack(const FGameplayTag CallBackTag, int32 Counts)
+{
+	bHitReacting = Counts > 0 ;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting? 0 : BaseWalkSpeed;
+}
 
 void AAuraEnemy::InitAbilityActorInfo()
 {
@@ -82,6 +100,8 @@ void AAuraEnemy::InitializeDefaultAttributes() const
 {
 	UAuraAbilitySystemLibrary::InitializedDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
 }
+
+
 
 
 void AAuraEnemy::HighlightActor()
@@ -104,5 +124,11 @@ void AAuraEnemy::UnHighlightActor()
 int32 AAuraEnemy::GetPlayerLevel()
 {
 	return Level;
+}
+
+void AAuraEnemy::Die()
+{
+	SetLifeSpan(Lifespan);
+	Super::Die();
 }
 

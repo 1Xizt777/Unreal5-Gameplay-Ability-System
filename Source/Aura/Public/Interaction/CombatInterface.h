@@ -29,4 +29,9 @@ public:
 	
 	UFUNCTION(BlueprintImplementableEvent,blueprintCallable)
 	void SetTarget(const FVector& TargetLocaiton); 
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+	UAnimMontage* GetHitReactMontage();
+	
+	virtual void Die() = 0;
 };

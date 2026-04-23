@@ -134,4 +134,19 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
         );
     
     
+    
+    
+    GameplayTags.Combat_Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(
+    FName("Combat.Damage"),
+    FString("The Damage Enemy should taken")
+    );
+    
+    
+    GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(
+    FName("Effects.HitReact"),
+    FString("The Reaction Enemy should taken")
+    );
+
+    
+    
 }

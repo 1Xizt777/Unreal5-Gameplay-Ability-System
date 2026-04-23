@@ -4,10 +4,12 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
 #include "VectorUtil.h"
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
 #include "AuraGameplayTags.h"
+#include "Interaction/CombatInterface.h"
 #include "Net/UnrealNetwork.h"
 	
 
@@ -96,13 +98,45 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
-		UE_LOG(LogTemp,Warning,TEXT("That guy : %s   ,   Health : %f"),*GetOwningActor()->GetName() , GetHealth());
 	}
 	if (Data.EvaluatedData.Attribute == GetManaAttribute())
 	{
 		SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
 	}
+	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
+	{
+		const float LocalIncomingDamage = GetIncomingDamage();
+		SetIncomingDamage(0.f);
+		
+		if (LocalIncomingDamage > 0)
+		{
+			const float NewHealth = GetHealth() - LocalIncomingDamage;
+			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
+			
+			bool bFatal = GetHealth() <= 0;
+			if (bFatal)
+			{	
+              ICombatInterface* CombatInterface = Cast<ICombatInterface> (Props.TargetAvatarActor) ;
+				
+				if (CombatInterface)
+				{
+					CombatInterface->Die();
+				}
+			}
+			else
+			{
+				FGameplayTagContainer TagContainer;
+				TagContainer.AddTag(FAuraGameplayTags().Get().Effects_HitReact);
+				
+				//目标的ASC
+				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);   
+			}
+		}
+	}
 }
+
+
+//---完美的辅助函数，把SourceASC,TargetASC等信息全部抽丝剥茧赋值好---
 void UAuraAttributeSet::SetEffectProperties(const struct FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const
 {
 	//Source = Causer of the effect ,   Target = target of the effect (owner of this effect)
@@ -122,6 +156,7 @@ void UAuraAttributeSet::SetEffectProperties(const struct FGameplayEffectModCallb
 				Props.SourceController = Pawn->GetController();
 			}
 		}
+		
 		if (Props.SourceController)
 		{
 			Props.SourceCharacter = Cast<ACharacter>(Props.SourceController->GetPawn());
