@@ -51,20 +51,22 @@ void UFireProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 		UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
 		FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(FireBoltGameplayEffectClass,GetAbilityLevel(),SourceASC->MakeEffectContext());
 		
-		
 		FAuraGameplayTags GameplayTags = FAuraGameplayTags().Get();
 		
+									//Damage是FScalableFloat的表格
 		const float ScaledDamage = Damage.AsInteger(GetAbilityLevel());	
-		GEngine->AddOnScreenDebugMessage(-1,3.f,FColor::Red,FString::Printf(TEXT("The Damage is : %f"),ScaledDamage));
+																		
 		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Combat_Damage , ScaledDamage);
 
+		//Spawn阶段把SpecHandle信息填好传递给AuraProjectile,在Overlap时使用
 		Projectile->FireBoltEffectSpecHandle = SpecHandle;
+		
+		
+		
 		
 		
 		Projectile->FinishSpawning(SpawnTransform);
 		
-		
 	}
-	
 	
 }

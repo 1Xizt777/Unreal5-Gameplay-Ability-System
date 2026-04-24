@@ -68,12 +68,13 @@ void AAuraProjectile::SphereOverlapped(UPrimitiveComponent* OverlappedComp, AAct
 	LoopingSoundComponent->Stop();  
 	
 	
-	if (HasAuthority())
+	if (HasAuthority())  //在服务器端
 	{
 		Destroy();
 		
 		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
-		{
+		{			
+						//应用GameplayEffect
 			TargetASC->ApplyGameplayEffectSpecToSelf(*FireBoltEffectSpecHandle.Data.Get());
 		}
 		

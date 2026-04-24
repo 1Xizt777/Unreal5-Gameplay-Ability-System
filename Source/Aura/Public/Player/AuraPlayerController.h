@@ -8,6 +8,7 @@
 #include "AuraPlayerController.generated.h"
 
 
+class UDamageTextWidgetComponent;
 class UAuraInputDataConfig;
 class IEnemyInterface;
 struct FInputActionValue;
@@ -23,7 +24,9 @@ class AURA_API AAuraPlayerController : public APlayerController
 	GENERATED_BODY()
 public:
 	AAuraPlayerController();
-
+	
+	UFUNCTION(Client, Reliable)
+	void ShowDamageNumber(float Damage , ACharacter* TargetCharacter);
 
 protected:
 	virtual void PlayerTick(float DeltaTime) override;
@@ -31,6 +34,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	virtual void SetupInputComponent() override;
+	
 
 
 private:
@@ -91,4 +95,8 @@ private:
 	TObjectPtr<USplineComponent> Spline;
 	
 	void AutoRun();
+	
+	
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDamageTextWidgetComponent> DamageTextWidgetComponentClass;
 };

@@ -221,4 +221,5 @@ public:
 private:
 	void SetEffectProperties(const struct FGameplayEffectModCallbackData& Data , FEffectProperties& Props) const;	
 	
+	void ShowDamageText(const FEffectProperties& Props , float LocalIncomingDamage) const ;
 };

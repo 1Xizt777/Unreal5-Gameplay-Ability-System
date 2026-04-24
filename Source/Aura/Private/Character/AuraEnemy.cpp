@@ -10,7 +10,6 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/PawnMovementComponent.h"
 #include "UI/Widget/AuraUserWidget.h"
 
 
@@ -74,6 +73,7 @@ void AAuraEnemy::BeginPlay()
 		AbilitySystemComponent->RegisterGameplayTagEvent(GameplayTags.Effects_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(
 		this,&AAuraEnemy::HitReactCallBack);
 		
+		//手动发送初始数据（让 UI 填满血条）
 		OnHealthChanged.Broadcast(AuraAS->GetMaxHealth());
 		OnMaxHealthChanged.Broadcast(AuraAS->GetMaxHealth());
 	}

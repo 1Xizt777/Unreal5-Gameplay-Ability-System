@@ -14,6 +14,8 @@
 #include "Engine/LocalPlayer.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
+#include "GameFramework/Character.h"
+#include "UI/WidgetComponent/DamageTextWidgetComponent.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -92,6 +94,9 @@ void AAuraPlayerController::SetupInputComponent()
 	AuraInputComponent->BindAction(ShiftAction,ETriggerEvent::Completed , this , &AAuraPlayerController::ReleasedShift);
 	
 	AuraInputComponent->BindAbilityActions(InputDataConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);}
+
+
+
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 {
@@ -237,5 +242,17 @@ void AAuraPlayerController::AutoRun()
 		{
 			bAutoRunning = false;
 		}
+	}
+}
+
+void AAuraPlayerController::ShowDamageNumber_Implementation(float Damage, ACharacter* TargetCharacter)
+{
+	if (DamageTextWidgetComponentClass && IsValid(TargetCharacter))
+	{
+		UDamageTextWidgetComponent* DamageText = NewObject<UDamageTextWidgetComponent>(TargetCharacter,DamageTextWidgetComponentClass);
+		DamageText->RegisterComponent();
+		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(),FAttachmentTransformRules::KeepRelativeTransform);
+		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		DamageText->SetDamageText(Damage);
 	}
 }

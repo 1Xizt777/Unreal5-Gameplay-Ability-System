@@ -52,7 +52,6 @@ void UAuraAbilitySystemLibrary::InitializedDefaultAttributes(const UObject* Worl
 	ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
 {
 	
-	
 	AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase> (UGameplayStatics::GetGameMode(WorldContextObject));
 	if (AuraGameModeBase == nullptr) { return ;}
 	
